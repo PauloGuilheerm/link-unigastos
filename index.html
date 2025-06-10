@@ -7,31 +7,43 @@
   <title>UniGastos – Abrindo App</title>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const segments = window.location.pathname.split('/');
-      const salaId = segments.pop() || segments.pop();
+      // 1) Tenta pegar ?code=...
+      const params = new URLSearchParams(window.location.search);
+      let salaId = params.get('code');
 
-      window.location.href = `myapp://rooms/${salaId}`;
+      // 2) Se não tiver ?code, pega último segmento da URL
+      if (!salaId) {
+        const parts = window.location.pathname
+          .split('/')
+          .filter(Boolean);  // remove strings vazias
+        salaId = parts.pop();
+      }
 
-      setTimeout(() => {
+      // 3) Se encontrou ID, tenta abrir o app
+      if (salaId) {
+        const deepLink = `myapp://rooms/${salaId}`;
+        window.location.href = deepLink;
+
+        // 4) Após 500ms, se nada, vai para página web de fallback
+        setTimeout(() => {
+          window.location.href = '/app-fallback.html';
+        }, 500);
+
+        // Atualiza link manual
+        const a = document.getElementById('open-link');
+        a.href = deepLink;
+      } else {
+        // Se não veio salaId, vai direto pro fallback
         window.location.href = '/app-fallback.html';
-      }, 500);
+      }
     });
   </script>
 </head>
 <body>
   <h1>UniGastos</h1>
-  <p>Estamos abrindo o app na sala...</p>
+  <p>Estamos abrindo o app na sala…</p>
   <p>
-    Se não for redirecionado automaticamente, 
-    <a id="open-link" href="#">clique aqui</a>.
+    Caso nada aconteça, <a id="open-link" href="#">clique aqui</a>.
   </p>
-
-  <script>
-    const segments = window.location.pathname.split('/');
-    const salaId = segments.pop() || segments.pop();
-    document
-      .getElementById('open-link')
-      .setAttribute('href', `myapp://rooms/${salaId}`);
-  </script>
 </body>
 </html>
