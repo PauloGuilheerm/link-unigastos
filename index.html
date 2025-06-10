@@ -10,6 +10,7 @@
       // 1) Tenta pegar ?code=...
       const params = new URLSearchParams(window.location.search);
       let salaId = params.get('code');
+      console.log(salaId)
 
       // 2) Se não tiver ?code, pega último segmento da URL
       if (!salaId) {
