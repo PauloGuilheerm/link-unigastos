@@ -24,11 +24,6 @@
         const deepLink = `myapp://rooms/${salaId}`;
         window.location.href = deepLink;
 
-        // 4) Após 500ms, se nada, vai para página web de fallback
-        setTimeout(() => {
-          window.location.href = '/app-fallback.html';
-        }, 500);
-
         // Atualiza link manual
         const a = document.getElementById('open-link');
         a.href = deepLink;
