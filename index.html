@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniGastos – Abrindo App</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const segments = window.location.pathname.split('/');
+      const salaId = segments.pop() || segments.pop();
+
+      window.location.href = `myapp://rooms/${salaId}`;
+
+      setTimeout(() => {
+        window.location.href = '/app-fallback.html';
+      }, 500);
+    });
+  </script>
+</head>
+<body>
+  <h1>UniGastos</h1>
+  <p>Estamos abrindo o app na sala...</p>
+  <p>
+    Se não for redirecionado automaticamente, 
+    <a id="open-link" href="#">clique aqui</a>.
+  </p>
+
+  <script>
+    const segments = window.location.pathname.split('/');
+    const salaId = segments.pop() || segments.pop();
+    document
+      .getElementById('open-link')
+      .setAttribute('href', `myapp://rooms/${salaId}`);
+  </script>
+</body>
+</html>
